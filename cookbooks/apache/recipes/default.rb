@@ -10,10 +10,6 @@ package "httpd" do
   action :install
 end
 
-service "httpd" do
-  action [ :enable, :start ]
-end
-
 execute "mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.bak" do
   only_if do
     File.exist?("/etc/httpd/conf.d/welcome.conf")
@@ -47,4 +43,8 @@ node['apache']['sites'].each do |site_name, site_data|
       :port => site_data['port']
     )
   end
+end
+
+service "httpd" do
+  action [ :enable, :start ]
 end
